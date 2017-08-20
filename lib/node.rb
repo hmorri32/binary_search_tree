@@ -1,5 +1,9 @@
 class Node
-  def initialize
-    
+  attr_accessor :score, :title, :movie_obj
+  
+  def initialize(score, title)
+    @score     = score
+    @title     = title
+    @movie_obj = { title => score }
   end
 end
