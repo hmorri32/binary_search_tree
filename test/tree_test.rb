@@ -34,8 +34,13 @@ class TreeTest < Minitest::Test
 
   def test_depth_after_two
     @tree.insert(20, 'sharknado')    
-    @tree.insert(25, 'lost')
+    @tree.insert(25, 'lebowski')
     assert_equal 1, @tree.head.right.depth
+  end
+
+  def test_insert_returns_depth
+    assert_equal 0, @tree.insert(20, 'coool')
+    assert_equal 1, @tree.insert(10, 'coool')
   end
 
   def test_cant_insert_same_score
@@ -44,4 +49,12 @@ class TreeTest < Minitest::Test
     assert_nil @tree.head.left
     assert_nil @tree.head.right
   end
+
+  def test_include_returns_bool
+    @tree.insert(20, 'sharknado')    
+    @tree.insert(25, 'lebowski')
+    assert_equal false, @tree.include?(10)
+    assert_equal true, @tree.include?(20)
+  end
+
 end
