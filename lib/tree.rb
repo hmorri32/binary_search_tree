@@ -8,7 +8,7 @@ class Tree
     @head = nil
   end
 
-  def insert(score, title) #cant read this. 
+  def insert(score, title)
     if head.nil? 
       @head = Node.new(score, title)
       head.depth
@@ -17,19 +17,12 @@ class Tree
     end
   end
 
-  def traverse_left?
-  end
-
-  def traverse_right?
-  end
-
   def include?(score, node = @head)
     return true if node.score == score
 
-    if (node.score < score) && node.right
-      include?(score, node.right) # pass score node.right
-
-    elsif (node.score > score) && node.left
+    if node.score < score && node.right
+      include?(score, node.right) 
+    elsif node.score > score && node.left
       include?(score, node.left)
     else
       return false
@@ -37,15 +30,26 @@ class Tree
   end
 
   def depth_of(score, node = @head)
-    # TODO
+    return node.depth if node.score === score
 
-    if @head.score > score && @head.left
-      
+    if node.score < score && node.right
+      depth_of(score, node.right)
+    elsif node.score > score && node.left
+      depth_of(score, node.left)
+    else
+      nil
     end
+  end
 
-    if @head.score < score && head.right
+  def max(node = @head)
+    node.right.nil? ? node.movie_obj : max(node.right)
+  end
 
-    end
+  def min(node = @head)
+    node.left.nil? ? node.movie_obj : min(node.left)
+  end
 
+  def sort
+    # sort pls
   end
 end
