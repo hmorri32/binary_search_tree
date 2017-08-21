@@ -68,18 +68,50 @@ class TreeTest < Minitest::Test
   end
 
   def test_depth_of_one_movie
-    skip
     @tree.insert(30, 'airplane')
+
     assert_equal 0, @tree.depth_of(30)
   end
 
   def test_depth_heaps_of_flicks
-    skip
     @tree.insert(64, "Zoolander")
     @tree.insert(95, "This is Spinal Tap")
     @tree.insert(74, "Caddyshack")
     @tree.insert(98, "Monty Python")
-    assert_equal 1, @tree.depth_of(64)
+
+    assert_equal 2, @tree.depth_of(98)
+  end
+
+  def test_depth_when_nil
+    @tree.insert(64, "Zoolander")
+    @tree.insert(95, "This is Spinal Tap")
+    @tree.insert(74, "Caddyshack")
+    @tree.insert(98, "Monty Python")
+
+    assert_nil @tree.depth_of(100)
+  end
+
+  def test_find_max
+    @tree.insert(64, "Zoolander")
+    @tree.insert(95, "This is Spinal Tap")
+    @tree.insert(74, "Caddyshack")
+    @tree.insert(98, "Monty Python")
+    max = {"Monty Python" => 98}
+
+    assert_equal max, @tree.max 
+  end
+
+  def test_find_min
+    @tree.insert(64, "Zoolander")
+    @tree.insert(95, "This is Spinal Tap")
+    @tree.insert(74, "Caddyshack")
+    @tree.insert(98, "Monty Python")
+    @tree.insert(12, "nested dirty")
+    min = {"nested dirty" => 12}
+
+    assert_equal min, @tree.min 
   end
 
 end
+
+
