@@ -163,7 +163,57 @@ class TreeTest < Minitest::Test
     assert_nil @tree.head.right
   end
 
+  def test_depth_sort_returns_nodes_at_depth
+    @tree.insert(97, "Airplane")
 
+    assert_equal ({"Airplane"=>97}), @tree.depth_sort(0)[0].movie_obj
+  end
+
+  def test_health_returns_multidemensional_arr
+    @tree.insert(97, "Airplane")
+    health = @tree.health(0)
+
+    assert_equal [[97, 1, 100]], health
+  end
+
+  def test_health_with_loaded_tree
+    @tree.insert(64, "Zoolander")
+    @tree.insert(95, "This is Spinal Tap")
+    @tree.insert(74, "Caddyshack")
+    @tree.insert(98, "Monty Python")
+    @tree.insert(12, "nested dirty")
+
+    root  = @tree.health(0)
+    one   = @tree.health(1)
+    two   = @tree.health(2)
+
+    assert_equal [[64, 5, 100]], root
+    assert_equal [[12, 1, 20], [95, 3, 60]], one
+    assert_equal [[74, 1, 20], [98, 1, 20]], two
+  end
+
+  def test_health_empty_node 
+    @tree.insert(64, "Zoolander")
+    root   = @tree.health(0)
+    numpty = @tree.health(2)
+
+    assert_equal [[64, 1, 100]], root
+    assert_equal [], numpty
+  end
+
+  def test_health_spec_example
+    @tree.insert(98, "Animals United")
+    @tree.insert(58, "Armageddon")
+    @tree.insert(36, "Bill & Ted's Bogus Journey")
+    @tree.insert(93, "Bill & Ted's Excellent Adventure")
+    @tree.insert(86, "Charlie's Angels")
+    @tree.insert(38, "Charlie's Country")
+    @tree.insert(69, "Collateral Damage")
+
+    assert_equal [[98, 7, 100]], @tree.health(0)
+    assert_equal [[58, 6, 85]], @tree.health(1)
+    assert_equal [[36, 2, 28], [93, 3, 42]], @tree.health(2)
+  end
 end
 
 
