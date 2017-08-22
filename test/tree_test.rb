@@ -143,12 +143,24 @@ class TreeTest < Minitest::Test
   def test_format_flick
     string    = "75, French Dirty"    
     formatted = @tree.format_flick(string)
-    
+
     assert_equal ["75", "French Dirty"], formatted
   end
 
   def test_load_file_inserts_movies_returns_count
     assert_equal 99, @tree.load('lib/movies.txt')
+  end
+
+  def test_load_different_file
+    assert_equal 10, @tree.load('lib/comedies.txt')
+  end
+
+  def test_load_no_duplicates
+    @tree.load('lib/duplicates.txt')
+
+    assert_equal "Airplane", @tree.head.title
+    assert_nil @tree.head.left
+    assert_nil @tree.head.right
   end
 
 
