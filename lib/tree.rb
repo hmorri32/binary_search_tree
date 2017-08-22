@@ -44,8 +44,6 @@ class Tree
       depth_of(score, node.right)
     elsif left_node?(score, node)
       depth_of(score, node.left)
-    else
-      nil
     end
   end
 
@@ -83,5 +81,32 @@ class Tree
     score = movie.first.to_i
     title = movie.last
     insert(score, title) 
+  end
+
+  def health(depth, node = @head)
+    # score of node
+    # total number of child nodes including current node
+    # percentage of all nodes that are this node or it's children
+    sorted     = depth_sort(depth)
+    node_tally = sort(node).length
+    
+    sorted.map do |node|
+      score    = node.score
+      children = sort(node).length
+      percent  = percentage(children, node_tally)
+      [score, children, percent]
+    end
+  end
+
+  def percentage(child, total)
+    (child / total.to_f * 100).to_i
+  end
+
+  def depth_sort(depth, node = @head)
+    at_depth = []
+    at_depth.push(node) if node.depth == depth
+    at_depth.push(depth_sort(depth, node.left))  unless node.left.nil?
+    at_depth.push(depth_sort(depth, node.right)) unless node.right.nil?
+    at_depth.flatten
   end
 end
