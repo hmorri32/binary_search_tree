@@ -112,6 +112,46 @@ class TreeTest < Minitest::Test
     assert_equal min, @tree.min 
   end
 
+  def test_sort_returns_movie_obj
+    @tree.insert(64, "Zoolander")
+
+    assert_equal ([{"Zoolander" => 64}]), @tree.sort
+  end
+
+  def test_sort_returns_sorted_jason
+    @tree.insert(64, "Zoolander")
+    @tree.insert(20, "Spinal Tap")
+
+    assert_equal ([{"Spinal Tap" => 20},{"Zoolander" => 64}]), @tree.sort
+  end
+
+  def test_sort_five_returns_sorted_jason
+    @tree.insert(64, "Zoolander")
+    @tree.insert(95, "This is Spinal Tap")
+    @tree.insert(74, "Caddyshack")
+    @tree.insert(98, "Monty Python")
+    @tree.insert(12, "nested dirty")
+    expected = [{"nested dirty"=>12}, 
+                {"Zoolander"=>64}, 
+                {"Caddyshack"=>74}, 
+                {"This is Spinal Tap"=>95}, 
+                {"Monty Python"=>98}]
+
+    assert_equal expected, @tree.sort
+  end
+
+  def test_format_flick
+    string    = "75, French Dirty"    
+    formatted = @tree.format_flick(string)
+    
+    assert_equal ["75", "French Dirty"], formatted
+  end
+
+  def test_load_file_inserts_movies_returns_count
+    assert_equal 99, @tree.load('lib/movies.txt')
+  end
+
+
 end
 
 
