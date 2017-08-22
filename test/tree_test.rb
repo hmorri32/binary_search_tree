@@ -140,9 +140,9 @@ class TreeTest < Minitest::Test
     assert_equal expected, @tree.sort
   end
 
-  def test_format_flick
+  def test_format
     string    = "75, French Dirty"    
-    formatted = @tree.format_flick(string)
+    formatted = @tree.format(string)
 
     assert_equal ["75", "French Dirty"], formatted
   end
@@ -214,6 +214,46 @@ class TreeTest < Minitest::Test
     assert_equal [[58, 6, 85]], @tree.health(1)
     assert_equal [[36, 2, 28], [93, 3, 42]], @tree.health(2)
   end
+
+  def test_percent_method
+    assert_equal 50, @tree.percentage(50, 100)
+    assert_equal 75, @tree.percentage(3, 4)
+  end
+
+  def test_leaves_spec_example
+    @tree.insert(98, "Animals United")
+    @tree.insert(58, "Armageddon")
+    @tree.insert(36, "Bill & Ted's Bogus Journey")
+    @tree.insert(93, "Bill & Ted's Excellent Adventure")
+    @tree.insert(86, "Charlie's Angels")
+    @tree.insert(38, "Charlie's Country")
+    @tree.insert(69, "Collateral Damage")
+
+    assert_equal 2, @tree.leaves
+  end
+
+  def test_height_zero
+    assert_equal 0, @tree.height
+  end
+
+  def test_height_spec_example
+    skip
+    @tree.insert(98, "Animals United")
+    @tree.insert(58, "Armageddon")
+    @tree.insert(36, "Bill & Ted's Bogus Journey")
+    @tree.insert(93, "Bill & Ted's Excellent Adventure")
+    @tree.insert(86, "Charlie's Angels")
+    @tree.insert(38, "Charlie's Country")
+    @tree.insert(69, "Collateral Damage")
+    assert_equal 3, @tree.height
+  end
+
+  def test_delete_leaf
+    @tree.insert(15, 'root')
+    @tree.delete(15)
+    binding.pry
+  end
+
 end
 
 
