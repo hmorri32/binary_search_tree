@@ -58,21 +58,11 @@ class Tree
   end
 
   def sort(node = @head)
-    sorted = []
-    branch_sort(node, sorted)
-    # sort pls
-    # sorted.push(node.movie_obj)   if node.left.nil?
-    # sorted.push(sort(node.left))  if !node.left.nil?
-    # sorted.push(node.movie_obj)   if !sorted.include?(node.movie_obj)
-    # sorted.push(sort(node.right)) if !node.right.nil?
-    sorted
-  end
-  
-  def branch_sort(node, arr)
-    return if node.nil?
-    branch_sort(node.left, arr)
-    arr.push(node.movie_obj)
-    branch_sort(node.right, arr)
+    in_order = []
+    in_order.push(sort(node.left)) unless node.left.nil?
+    in_order.push(node.movie_obj)
+    in_order.push(sort(node.right)) unless node.right.nil?
+    in_order.flatten
   end
 
   def load(file)
