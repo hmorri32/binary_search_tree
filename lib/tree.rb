@@ -57,7 +57,7 @@ class Tree
 
   def sort(node = @head)
     in_order = []
-    in_order.push(sort(node.left)) unless node.left.nil?
+    in_order.push(sort(node.left))  unless node.left.nil?
     in_order.push(node.movie_obj)
     in_order.push(sort(node.right)) unless node.right.nil?
     in_order.flatten
@@ -66,14 +66,14 @@ class Tree
   def load(file)
     total = 0
     File.read(file).each_line do |movie|
-      clean = format_flick(movie)
+      clean = format(movie)
       insert_loaded_movie(clean)
       total += 1
     end
     total
   end
 
-  def format_flick(movie)
+  def format(movie)
     movie.strip.split(", ")      
   end
 
@@ -84,12 +84,8 @@ class Tree
   end
 
   def health(depth, node = @head)
-    # score of node
-    # total number of child nodes including current node
-    # percentage of all nodes that are this node or it's children
     sorted     = depth_sort(depth)
     node_tally = sort(node).length
-    
     sorted.map do |node|
       score    = node.score
       children = sort(node).length
@@ -108,5 +104,64 @@ class Tree
     at_depth.push(depth_sort(depth, node.left))  unless node.left.nil?
     at_depth.push(depth_sort(depth, node.right)) unless node.right.nil?
     at_depth.flatten
+  end
+
+  def leaves(node = @head)
+    pile  = 0
+    pile += 1 if leaf?(node)
+    pile += leaves(node.left)  if node.left
+    pile += leaves(node.right) if node.right
+    pile
+  end
+
+  def leaf?(node)
+    node.left.nil? && node.right.nil?
+  end
+
+  def height(node = @head)
+    return 0 unless node
+    tree_depth        = 0 
+    left_depth        = height(node.left)
+    right_depth       = height(node.right)
+    return tree_depth = node.depth + 1 if leaf?(node)
+    tree_depth        = traverse(left_depth, right_depth)
+  end
+
+  def traverse(left, right)
+    right > left ? right : left
+  end
+
+  def search(score, node = @head)
+    return nil if node.nil?
+
+    if score == node.score
+      return node
+    elsif score > node.score 
+      search(score, node.right)
+    else score < node.score 
+      search(score, node.left)
+    end
+  end
+
+  def delete(score)
+    node = search(score)
+    if node
+      remove(node)
+    end
+    #   if leaf?(node)
+    #     node = nil
+    #   # elsif node.left && node.right.nil?
+    #   #   node = node.left
+    #   # elsif node.left.nil? && node.right
+    #   #   node = node.right
+    #   # else 
+    #   #   p "two children..."
+    #   end      
+  end
+
+  def remove(node = @head)
+    if leaf?(node)
+      node = nil 
+    end
   end
 end
