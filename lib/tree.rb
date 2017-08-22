@@ -131,37 +131,35 @@ class Tree
     right > left ? right : left
   end
 
-  def search(score, node = @head)
-    return nil if node.nil?
+  # def search(score, node = @head)
+  #   return nil if node.nil?
 
-    if score == node.score
-      return node
-    elsif score > node.score 
-      search(score, node.right)
-    else score < node.score 
-      search(score, node.left)
-    end
-  end
+  #   if score == node.score
+  #     return node
+  #   elsif score > node.score 
+  #     search(score, node.right)
+  #   else score < node.score 
+  #     search(score, node.left)
+  #   end
+  # end
 
-  def delete(score)
-    node = search(score)
-    if node
+  def delete(score, node = @head)
+    if score == node.score 
       remove(node)
+    elsif score < node.score
+      delete(score, node.left)
+    elsif score > node.score
+      delete(score, node.right)
     end
-    #   if leaf?(node)
-    #     node = nil
-    #   # elsif node.left && node.right.nil?
-    #   #   node = node.left
-    #   # elsif node.left.nil? && node.right
-    #   #   node = node.right
-    #   # else 
-    #   #   p "two children..."
-    #   end      
+    node
   end
 
-  def remove(node = @head)
+  def remove(node)
     if leaf?(node)
-      node = nil 
+      p 'leaf' 
+      p node
+      node = nil
     end
+    node
   end
 end
