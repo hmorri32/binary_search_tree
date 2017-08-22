@@ -17,17 +17,9 @@ class Tree
     end
   end
 
-  def right_node?(score, node)
-    node.score < score && node.right
-  end
-  
-  def left_node?(score, node)
-    node.score > score && node.left
-  end
-  
   def include?(score, node = @head)
     return true if node.score == score
-
+    
     if right_node?(score, node)
       include?(score, node.right) 
     elsif left_node?(score, node)
@@ -35,6 +27,14 @@ class Tree
     else
       return false
     end
+  end
+  
+  def right_node?(score, node)
+    node.score < score && node.right
+  end
+  
+  def left_node?(score, node)
+    node.score > score && node.left
   end
 
   def depth_of(score, node = @head)
@@ -119,12 +119,10 @@ class Tree
   end
 
   def height(node = @head)
-    return 0 unless node
-    tree_depth        = 0 
-    left_depth        = height(node.left)
-    right_depth       = height(node.right)
-    return tree_depth = node.depth + 1 if leaf?(node)
-    tree_depth        = traverse(left_depth, right_depth)
+    if !node then return 0 end
+    left  = height(node.left)
+    right = height(node.right)
+    leaf?(node) ? node.depth + 1 : traverse(left, right)
   end
 
   def traverse(left, right)

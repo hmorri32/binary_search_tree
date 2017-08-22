@@ -237,7 +237,6 @@ class TreeTest < Minitest::Test
   end
 
   def test_height_spec_example
-    skip
     @tree.insert(98, "Animals United")
     @tree.insert(58, "Armageddon")
     @tree.insert(36, "Bill & Ted's Bogus Journey")
@@ -245,13 +244,13 @@ class TreeTest < Minitest::Test
     @tree.insert(86, "Charlie's Angels")
     @tree.insert(38, "Charlie's Country")
     @tree.insert(69, "Collateral Damage")
-    assert_equal 3, @tree.height
+    assert_equal 5, @tree.height
   end
 
   def test_delete_leaf
     @tree.insert(15, 'root')
     @tree.delete(15)
-    binding.pry
+    # binding.pry
   end
 
 end
