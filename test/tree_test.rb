@@ -62,9 +62,9 @@ class TreeTest < Minitest::Test
     @tree.insert(25, 'lebowski')
     @tree.insert(40, 'cool')
 
-    assert_equal false, @tree.include?(10)
-    assert_equal true, @tree.include?(20)
-    assert_equal true, @tree.include?(40)
+    refute @tree.include?(10)
+    assert @tree.include?(20)
+    assert @tree.include?(40)
   end
 
   def test_depth_of_one_movie
@@ -244,19 +244,68 @@ class TreeTest < Minitest::Test
     @tree.insert(86, "Charlie's Angels")
     @tree.insert(38, "Charlie's Country")
     @tree.insert(69, "Collateral Damage")
+
     assert_equal 5, @tree.height
   end
 
-  def test_delete_leaf
+  def test_delete_root
     @tree.insert(15, 'root')
-    @tree.insert(10, 'child')
-    @tree.insert(9, 'whatever')
-    # @tree.insert(8, 'bud')
-    # @tree.insert(7, 'leaf')
-    @tree.delete(9)
-    p @tree
+    @tree.delete(15)
+    
+    assert_nil @tree.head
   end
 
+  def test_delete_min_leaf
+    @tree.insert(15, 'root')
+    @tree.insert(10, 'left')
+    @tree.insert(5, 'leaf')
+
+    assert @tree.head.left.left
+
+    @tree.delete(5)
+
+    refute @tree.head.left.left
+  end
+
+  def test_delete_max_leaf 
+    @tree.insert(10, 'root')
+    @tree.insert(20, 'right')
+    @tree.insert(30, 'leaf')
+
+    assert @tree.head.right.right
+
+    @tree.delete(30)
+
+    refute @tree.head.right.right
+  end
+
+  def test_delete_right_mid
+    @tree.insert(10, 'root')
+    @tree.insert(20, 'right')
+    @tree.insert(30, 'leaf')
+
+    assert_equal 20, @tree.head.right.score
+    assert @tree.head.right.right
+
+    @tree.delete(20) 
+
+    assert_equal 30, @tree.head.right.score
+    refute @tree.head.right.right
+  end
+
+  def test_delete_left_mid
+    @tree.insert(15, 'root')
+    @tree.insert(10, 'left')
+    @tree.insert(5, 'leaf')
+
+    assert_equal 10, @tree.head.left.score
+    assert @tree.head.left.left
+    
+    @tree.delete(10)
+    assert_equal 5, @tree.head.left.score
+    refute @tree.head.left.left
+    
+   end
 end
 
 
