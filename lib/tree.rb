@@ -106,8 +106,7 @@ class Tree
     at_depth.flatten
   end
 
-  def leaves(node = @head)
-    pile  = 0
+  def leaves(node = @head, pile = 0)
     pile += 1 if leaf?(node)
     pile += leaves(node.left)  if node.left
     pile += leaves(node.right) if node.right
@@ -129,45 +128,43 @@ class Tree
     right > left ? right : left
   end
 
-  # def search(score, node = @head)
-  #   return nil if node.nil?
+  def wrong_child?(child, score)
+    child && child.score != score
+  end
 
-  #   if score == node.score
-  #     return node
-  #   elsif score > node.score 
-  #     search(score, node.right)
-  #   else score < node.score 
-  #     search(score, node.left)
-  #   end
-  # end
+  def child?(child, score)
+    child && child.score == score
+  end
 
   def delete(score, node = @head)
-    # return if node.nil?
+    self.head = nil if score === @head.score
+
     #TODO - deletes left leaf only. 
     if node 
       if score < node.score
         child = node.left
-        if child && child.score != score
+        if wrong_child?(child, score)
           delete(score, child)
-        elsif child && child.score == score
-          child = nil
-          node.left = child
+        elsif child?(child, score)
+          if leaf?(child)
+            node.left = nil
+          elsif !leaf?(child)
+            node.left = node.left.left
+          end
+        end
+      elsif score > node.score 
+        child = node.right 
+
+        if wrong_child?(child, score) 
+          delete(score, child)
+        elsif child?(child, score)
+          if leaf?(child)
+            node.right = nil 
+          elsif !leaf?(child)
+            node.right = node.right.right
+          end
+        end
       end
     end
-
-    # if score == node.score 
-    #   remove(node)
-    # elsif score < node.score
-    #   delete(score, node.left)
-    # elsif score > node.score
-    #   delete(score, node.right)
-    end
-  end
-
-  def remove(node)
-    if leaf?(node)
-      node.implode
-    end
-    node
   end
 end
