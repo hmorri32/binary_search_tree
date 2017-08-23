@@ -136,7 +136,7 @@ class Tree
     child && child.score == score
   end
 
-  def delete_left(node, score)
+  def delete_left(score, node)
     child = node.left
     if wrong_child?(child, score)
       delete(score, child)
@@ -154,7 +154,7 @@ class Tree
     end
   end
 
-  def delete_right(node, score) 
+  def delete_right(score, node) 
     child = node.right 
     if wrong_child?(child, score) 
       delete(score, child)
@@ -174,7 +174,7 @@ class Tree
 
   def delete(score, node = @head)
     self.head = nil if score == @head.score 
-    
-    score < node.score ? delete_left(node, score) : delete_right(node, score)   
+
+    score < node.score ? delete_left(score, node) : delete_right(score, node)   
   end
 end
