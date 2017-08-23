@@ -3,11 +3,9 @@ require_relative 'tree'
 require 'pry'
 
 tree = Tree.new
-tree.insert(64, "Zoolander")
-tree.insert(95, "This is Spinal Tap")
-# tree.insert(74, "Caddyshack")
-# tree.insert(98, "Monty Python")
-# tree.insert(12, "nested dirty")
+tree.insert(10, 'root')
+tree.insert(20, 'right')
+tree.insert(30, 'right')
 
-tree.delete(95)
+tree.delete(20)
 binding.pry
