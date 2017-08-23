@@ -142,21 +142,31 @@ class Tree
   # end
 
   def delete(score, node = @head)
-    if score == node.score 
-      remove(node)
-    elsif score < node.score
-      delete(score, node.left)
-    elsif score > node.score
-      delete(score, node.right)
+    # return if node.nil?
+    #TODO - deletes left leaf only. 
+    if node 
+      if score < node.score
+        child = node.left
+        if child && child.score != score
+          delete(score, child)
+        elsif child && child.score == score
+          child = nil
+          node.left = child
+      end
     end
-    node
+
+    # if score == node.score 
+    #   remove(node)
+    # elsif score < node.score
+    #   delete(score, node.left)
+    # elsif score > node.score
+    #   delete(score, node.right)
+    end
   end
 
   def remove(node)
     if leaf?(node)
-      p 'leaf' 
-      p node
-      node = nil
+      node.implode
     end
     node
   end
