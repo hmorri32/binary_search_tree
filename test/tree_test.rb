@@ -330,16 +330,12 @@ class TreeTest < Minitest::Test
   end
 
    def test_delete_with_two_children
-
     @tree.insert(8, 'root')
     @tree.insert(3 ,'left')
     @tree.insert(1, 'left leaf')
     @tree.insert(6 ,'right')
 
-    # @tree.insert(4, 'left leaf')
-    # @tree.insert(7, 'right leaf')
-
-    @tree.delete(3)
+    assert_equal 'cry', @tree.delete(3)
   end
 end
 
