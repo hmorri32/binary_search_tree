@@ -38,7 +38,7 @@ class Tree
   end
 
   def depth_of(score, node = @head)
-    return node.depth if node.score === score
+    return node.depth if node.score == score
 
     if right_node?(score, node)
       depth_of(score, node.right)
@@ -63,8 +63,7 @@ class Tree
     in_order.flatten
   end
 
-  def load(file)
-    total = 0
+  def load(file, total = 0)
     File.read(file).each_line do |movie|
       clean = format(movie)
       insert_loaded_movie(clean)
@@ -118,7 +117,7 @@ class Tree
   end
 
   def height(node = @head)
-    if !node then return 0 end
+    return 0 if node.nil?
     left  = height(node.left)
     right = height(node.right)
     leaf?(node) ? node.depth + 1 : traverse(left, right)
@@ -172,9 +171,12 @@ class Tree
     end
   end
 
-  def delete(score, node = @head)
-    self.head = nil if score == @head.score 
+  def delete_head
+    self.head = nil    
+  end
 
+  def delete(score, node = @head)
+    delete_head if score == @head.score 
     score < node.score ? delete_left(score, node) : delete_right(score, node)   
   end
 end
