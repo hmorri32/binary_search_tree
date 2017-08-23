@@ -146,11 +146,14 @@ class Tree
           delete(score, child)
         elsif the_child?(child, score)
           if leaf?(child)
-            node.left = nil
-          elsif node.left.left
+            node.left  = nil
+            node.right = nil
+          elsif node.left.left && node.left.right.nil?
             node.left = node.left.left
-          elsif node.left.right 
+          elsif node.left.right && node.left.left.nil?
             node.left = node.left.right
+          elsif node.left.left && node.left.right 
+            p 'crying left method'
           end
         end
       elsif score > node.score
@@ -160,10 +163,13 @@ class Tree
         elsif the_child?(child, score)
           if leaf?(child)
             node.right = nil 
-          elsif node.right.right
+            node.left  = nil
+          elsif node.right.right && node.right.left.nil?
             node.right = node.right.right
-          elsif node.right.left
+          elsif node.right.left && node.right.right.nil?
             node.right = node.right.left
+          elsif node.right.right && node.right.left 
+            p 'crying right method'
           end
         end
       end

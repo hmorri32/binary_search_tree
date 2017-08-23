@@ -330,7 +330,7 @@ class TreeTest < Minitest::Test
   end
 
    def test_delete_with_two_children
-    skip
+
     @tree.insert(8, 'root')
     @tree.insert(3 ,'left')
     @tree.insert(1, 'left leaf')
@@ -338,7 +338,9 @@ class TreeTest < Minitest::Test
 
     # @tree.insert(4, 'left leaf')
     # @tree.insert(7, 'right leaf')
-   end
+
+    @tree.delete(3)
+  end
 end
 
 
