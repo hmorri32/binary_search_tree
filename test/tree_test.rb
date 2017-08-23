@@ -249,8 +249,12 @@ class TreeTest < Minitest::Test
 
   def test_delete_leaf
     @tree.insert(15, 'root')
-    @tree.delete(15)
-    # binding.pry
+    @tree.insert(10, 'child')
+    @tree.insert(9, 'whatever')
+    # @tree.insert(8, 'bud')
+    # @tree.insert(7, 'leaf')
+    @tree.delete(9)
+    p @tree
   end
 
 end
