@@ -136,43 +136,45 @@ class Tree
     child && child.score == score
   end
 
-  def delete(score, node = @head)
-    self.head = nil if score == @head.score
-
-    if node 
-      if score < node.score
-        child = node.left
-        if wrong_child?(child, score)
-          delete(score, child)
-        elsif the_child?(child, score)
-          if leaf?(child)
-            node.left  = nil
-            node.right = nil
-          elsif node.left.left && node.left.right.nil?
-            node.left = node.left.left
-          elsif node.left.right && node.left.left.nil?
-            node.left = node.left.right
-          elsif node.left.left && node.left.right 
-            p 'crying left method'
-          end
-        end
-      elsif score > node.score
-        child = node.right 
-        if wrong_child?(child, score) 
-          delete(score, child)
-        elsif the_child?(child, score)
-          if leaf?(child)
-            node.right = nil 
-            node.left  = nil
-          elsif node.right.right && node.right.left.nil?
-            node.right = node.right.right
-          elsif node.right.left && node.right.right.nil?
-            node.right = node.right.left
-          elsif node.right.right && node.right.left 
-            p 'crying right method'
-          end
-        end
+  def delete_left(node, score)
+    child = node.left
+    if wrong_child?(child, score)
+      delete(score, child)
+    elsif the_child?(child, score)
+      if leaf?(child)
+        node.left  = nil
+        node.right = nil
+      elsif child.left && child.right 
+        'cry'
+      elsif child.left
+        node.left = child.left
+      elsif child.right
+        node.left = child.right
       end
     end
+  end
+
+  def delete_right(node, score) 
+    child = node.right 
+    if wrong_child?(child, score) 
+      delete(score, child)
+    elsif the_child?(child, score)
+      if leaf?(child)
+        node.right = nil 
+        node.left  = nil
+      elsif child.right && child.left 
+        'cry'
+      elsif child.right
+        node.right = child.right
+      elsif child.left
+        node.right = child.left
+      end
+    end
+  end
+
+  def delete(score, node = @head)
+    self.head = nil if score == @head.score 
+    
+    score < node.score ? delete_left(node, score) : delete_right(node, score)   
   end
 end
