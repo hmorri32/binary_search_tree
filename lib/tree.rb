@@ -19,13 +19,10 @@ class Tree
 
   def include?(score, node = @head)
     return true if node.score == score
-    
     if right_node?(score, node)
       include?(score, node.right) 
     elsif left_node?(score, node)
       include?(score, node.left)
-    else
-      return false
     end
   end
   
@@ -39,7 +36,6 @@ class Tree
 
   def depth_of(score, node = @head)
     return node.depth if node.score == score
-
     if right_node?(score, node)
       depth_of(score, node.right)
     elsif left_node?(score, node)
@@ -94,7 +90,7 @@ class Tree
   end
 
   def percentage(child, total)
-    (child / total.to_f * 100).to_i
+    (child.to_f / total * 100).floor
   end
 
   def depth_sort(depth, node = @head)
