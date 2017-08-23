@@ -279,7 +279,7 @@ class TreeTest < Minitest::Test
     refute @tree.head.right.right
   end
 
-  def test_delete_right_mid
+  def test_delete_right_mid_right_child
     @tree.insert(10, 'root')
     @tree.insert(20, 'right')
     @tree.insert(30, 'leaf')
@@ -292,8 +292,19 @@ class TreeTest < Minitest::Test
     assert_equal 30, @tree.head.right.score
     refute @tree.head.right.right
   end
+  
+  def test_delete_right_mid_w_left_child
+    @tree.insert(10, 'root')
+    @tree.insert(20, 'mid')
+    @tree.insert(15, 'leaf left')
+    assert_equal 20, @tree.head.right.score
 
-  def test_delete_left_mid
+    @tree.delete(20)
+
+    assert_equal 15, @tree.head.right.score
+  end
+
+  def test_delete_left_mid_left_child
     @tree.insert(15, 'root')
     @tree.insert(10, 'left')
     @tree.insert(5, 'leaf')
@@ -304,7 +315,29 @@ class TreeTest < Minitest::Test
     @tree.delete(10)
     assert_equal 5, @tree.head.left.score
     refute @tree.head.left.left
+   end
+
+   def test_delete_left_mid_right_child 
+    @tree.insert(15, 'root')
+    @tree.insert(10, 'left')
+    @tree.insert(11, 'leaf')
     
+    assert_equal 10, @tree.head.left.score 
+
+    @tree.delete(10)
+
+    assert_equal 11, @tree.head.left.score
+  end
+
+   def test_delete_with_two_children
+    skip
+    @tree.insert(8, 'root')
+    @tree.insert(3 ,'left')
+    @tree.insert(1, 'left leaf')
+    @tree.insert(6 ,'right')
+
+    # @tree.insert(4, 'left leaf')
+    # @tree.insert(7, 'right leaf')
    end
 end
 
