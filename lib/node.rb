@@ -19,7 +19,6 @@ class Node
 
   def insert_node(score, title)
     return if score == @score
-    
     score < @score ? create_left(score, title) : create_right(score, title)
   end
 
