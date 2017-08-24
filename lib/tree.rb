@@ -119,37 +119,6 @@ class Tree
     leaf?(node) ? node.depth + 1 : traverse(left, right)
   end
 
-  def traverse(left, right)
-    right > left ? right : left
-  end
-
-  def wrong_child?(child, score)
-    child && child.score != score
-  end
-
-  def the_child?(child, score)
-    child && child.score == score
-  end
-  
-  def delete_traverse(child, score)
-    if wrong_child?(child, score) 
-      delete(score, child)
-    end
-  end
-
-  def delete_if_leaf(child, node)
-    if leaf?(child)
-      node.right = nil 
-      node.left  = nil
-    end
-  end
-
-  def delete_two_children(child)
-    if child.left && child.right 
-     'cry'
-    end
-  end
-  
   def delete(score, node = @head)
     delete_head if score == @head.score 
     score < node.score ? delete_left(score, node) : delete_right(score, node)   
@@ -190,4 +159,36 @@ class Tree
   def delete_head
     self.head = nil    
   end
+
+  def traverse(left, right)
+    right > left ? right : left
+  end
+
+  def wrong_child?(child, score)
+    child && child.score != score
+  end
+
+  def the_child?(child, score)
+    child && child.score == score
+  end
+  
+  def delete_traverse(child, score)
+    if wrong_child?(child, score) 
+      delete(score, child)
+    end
+  end
+
+  def delete_if_leaf(child, node)
+    if leaf?(child)
+      node.right = nil 
+      node.left  = nil
+    end
+  end
+
+  def delete_two_children(child)
+    if child.left && child.right 
+     'cry'
+    end
+  end
+  
 end
