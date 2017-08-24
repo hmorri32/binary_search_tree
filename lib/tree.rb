@@ -19,9 +19,10 @@ class Tree
 
   def include?(score, node = @head)
     return true if node.score == score
-    if right_node?(score, node)
+    case
+    when right_node?(score, node)
       include?(score, node.right) 
-    elsif left_node?(score, node)
+    when left_node?(score, node)
       include?(score, node.left)
     else
       false
