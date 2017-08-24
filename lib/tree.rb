@@ -130,34 +130,54 @@ class Tree
   def the_child?(child, score)
     child && child.score == score
   end
+  
+  def delete_traverse(child, score)
+    if wrong_child?(child, score) 
+      delete(score, child)
+    end
+  end
+
+  def delete_if_leaf(child, node)
+    if leaf?(child)
+      node.right = nil 
+      node.left  = nil
+    end
+  end
+
+  def delete_two_children(child)
+    if child.left && child.right 
+     'cry'
+    end
+  end
+  
+  def delete(score, node = @head)
+    delete_head if score == @head.score 
+    score < node.score ? delete_left(score, node) : delete_right(score, node)   
+  end
 
   def delete_left(score, node)
     child = node.left
-    if wrong_child?(child, score)
-      delete(score, child)
-    elsif the_child?(child, score)
-      if leaf?(child)
-        node.left  = nil
-        node.right = nil
-      elsif child.left && child.right 
+    delete_traverse(child, score)
+
+    if the_child?(child, score)
+      delete_if_leaf(child, node)
+      if child.left && child.right 
         'cry'
       elsif child.left
         node.left = child.left
       elsif child.right
         node.left = child.right
-      end
-    end
-  end
+      end  
+    end  
+  end  
 
   def delete_right(score, node) 
     child = node.right 
-    if wrong_child?(child, score) 
-      delete(score, child)
-    elsif the_child?(child, score)
-      if leaf?(child)
-        node.right = nil 
-        node.left  = nil
-      elsif child.right && child.left 
+    delete_traverse(child, score)
+
+    if the_child?(child, score)
+      delete_if_leaf(child, node)      
+      if child.right && child.left 
         'cry'
       elsif child.right
         node.right = child.right
@@ -169,10 +189,5 @@ class Tree
 
   def delete_head
     self.head = nil    
-  end
-
-  def delete(score, node = @head)
-    delete_head if score == @head.score 
-    score < node.score ? delete_left(score, node) : delete_right(score, node)   
   end
 end
