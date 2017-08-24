@@ -23,6 +23,8 @@ class Tree
       include?(score, node.right) 
     elsif left_node?(score, node)
       include?(score, node.left)
+    else
+      false
     end
   end
   
@@ -36,9 +38,10 @@ class Tree
 
   def depth_of(score, node = @head)
     return node.depth if node.score == score
-    if right_node?(score, node)
+    case
+    when right_node?(score, node)
       depth_of(score, node.right)
-    elsif left_node?(score, node)
+    when left_node?(score, node)
       depth_of(score, node.left)
     end
   end
@@ -116,24 +119,32 @@ class Tree
     return 0 if node.nil?
     left  = height(node.left)
     right = height(node.right)
-    leaf?(node) ? node.depth + 1 : traverse(left, right)
+    if leaf?(node)
+      node.depth + 1
+    else
+      traverse(left, right)
+    end
   end
 
   def delete(score, node = @head)
     delete_head if score == @head.score 
-    score < node.score ? delete_left(score, node) : delete_right(score, node)   
+    if score < node.score
+      delete_left(score, node)
+    else 
+      delete_right(score, node)
+    end 
   end
 
   def delete_left(score, node)
     child = node.left
     delete_traverse(child, score)
-    #TODO refactor
+
     if the_child?(child, score)
       case 
       when leaf?(child)
         delete_leaf(node) 
-      when child.left && child.right 
-        'cry'
+      when child.left && child.right
+        delete_two_children
       when child_left?(child)
         node.left = child.left
       when child_right?(child)
@@ -150,7 +161,7 @@ class Tree
       case
       when leaf?(child)
         delete_leaf(node)
-      when two_children?(child) 
+      when child.right && child.left
         delete_two_children
       when child_right?(child)
         node.right = child.right            
@@ -162,10 +173,6 @@ class Tree
 
   def delete_leaf(node)
     node.right, node.left = nil
-  end
-
-  def two_children?(child)
-    child.right && child.left
   end
 
   def child_right?(child)
@@ -198,7 +205,7 @@ class Tree
     end
   end
 
-  def delete_two_children(child)
+  def delete_two_children
      'cry'
   end
 end
