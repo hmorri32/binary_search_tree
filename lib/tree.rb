@@ -127,7 +127,7 @@ class Tree
   def delete_left(score, node)
     child = node.left
     delete_traverse(child, score)
-
+    #TODO refactor
     if the_child?(child, score)
       delete_if_leaf(child, node)
       if child.left && child.right 
@@ -150,9 +150,9 @@ class Tree
       when two_children?(child) 
         delete_two_children
       when child_right?(child)
-        delete_w_right_child(node, child)
+        node.right = child.right            
       when child_left?(child) 
-        delete_w_left_child(node, child)
+        node.right = child.left
       end
     end
   end
@@ -167,14 +167,6 @@ class Tree
 
   def child_left?(child)
     child.left
-  end
-
-  def delete_w_right_child(node, child)
-    node.right = child.right    
-  end
-
-  def delete_w_left_child(node, child)
-    node.right = child.left    
   end
 
   def delete_head
