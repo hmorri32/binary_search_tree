@@ -145,15 +145,36 @@ class Tree
     delete_traverse(child, score)
 
     if the_child?(child, score)
-      delete_if_leaf(child, node)      
-      if child.right && child.left 
-        'cry'
-      elsif child.right
-        node.right = child.right
-      elsif child.left
-        node.right = child.left
+      delete_if_leaf(child, node) 
+      case
+      when two_children?(child) 
+        delete_two_children
+      when child_right?(child)
+        delete_w_right_child(node, child)
+      when child_left?(child) 
+        delete_w_left_child(node, child)
       end
     end
+  end
+
+  def two_children?(child)
+    child.right && child.left
+  end
+
+  def child_right?(child)
+    child.right
+  end
+
+  def child_left?(child)
+    child.left
+  end
+
+  def delete_w_right_child(node, child)
+    node.right = child.right    
+  end
+
+  def delete_w_left_child(node, child)
+    node.right = child.left    
   end
 
   def delete_head
@@ -186,8 +207,6 @@ class Tree
   end
 
   def delete_two_children(child)
-    if child.left && child.right 
      'cry'
-    end
   end
 end
