@@ -190,5 +190,4 @@ class Tree
      'cry'
     end
   end
-  
 end
